@@ -1,0 +1,88 @@
+Running via Spring preloader in process 13512
+Loading development environment (Rails 5.2.1)
+[1] pry(main)> brewery = Brewery.create name:'Panimo', year:2018
+   (0.1ms)  begin transaction
+  Brewery Create (0.3ms)  INSERT INTO "breweries" ("name", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["name", "Panimo"], ["year", 2018], ["created_at", "2018-09-11 15:32:48.840030"], ["updated_at", "2018-09-11 15:32:48.840030"]]
+   (14.5ms)  commit transaction
+=> #<Brewery:0x0000557437381638
+ id: 7,
+ name: "Panimo",
+ year: 2018,
+ created_at: Tue, 11 Sep 2018 15:32:48 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:32:48 UTC +00:00>
+[2] pry(main)> beer = brewery.beers.create name:'Olut', style:'Lager'
+   (0.1ms)  begin transaction
+  Beer Create (0.2ms)  INSERT INTO "beers" ("name", "style", "brewery_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["name", "Olut"], ["style", "Lager"], ["brewery_id", 7], ["created_at", "2018-09-11 15:33:21.473198"], ["updated_at", "2018-09-11 15:33:21.473198"]]
+   (14.8ms)  commit transaction
+=> #<Beer:0x00005574381dd1c8
+ id: 21,
+ name: "Olut",
+ style: "Lager",
+ brewery_id: 7,
+ created_at: Tue, 11 Sep 2018 15:33:21 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:33:21 UTC +00:00>
+[3] pry(main)> beer.ratings.create score:22
+   (0.1ms)  begin transaction
+  Rating Create (0.2ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 22], ["beer_id", 21], ["created_at", "2018-09-11 15:33:48.926345"], ["updated_at", "2018-09-11 15:33:48.926345"]]
+   (375.8ms)  commit transaction
+=> #<Rating:0x00005574359fa2a0
+ id: 15,
+ score: 22,
+ beer_id: 21,
+ created_at: Tue, 11 Sep 2018 15:33:48 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:33:48 UTC +00:00>
+[4] pry(main)> beer.ratings.create score:31
+   (0.2ms)  begin transaction
+  Rating Create (0.2ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 31], ["beer_id", 21], ["created_at", "2018-09-11 15:33:53.034085"], ["updated_at", "2018-09-11 15:33:53.034085"]]
+   (20.4ms)  commit transaction
+=> #<Rating:0x00005574372ea3f0
+ id: 16,
+ score: 31,
+ beer_id: 21,
+ created_at: Tue, 11 Sep 2018 15:33:53 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:33:53 UTC +00:00>
+[5] pry(main)> Beer.where brewery:brewery
+  Beer Load (0.2ms)  SELECT "beers".* FROM "beers" WHERE "beers"."brewery_id" = ?  [["brewery_id", 7]]
+=> [#<Beer:0x0000557437e7f0d0
+  id: 21,
+  name: "Olut",
+  style: "Lager",
+  brewery_id: 7,
+  created_at: Tue, 11 Sep 2018 15:33:21 UTC +00:00,
+  updated_at: Tue, 11 Sep 2018 15:33:21 UTC +00:00>]
+[6] pry(main)> Rating.where beer:beer
+  Rating Load (0.2ms)  SELECT "ratings".* FROM "ratings" WHERE "ratings"."beer_id" = ?  [["beer_id", 21]]
+=> [#<Rating:0x0000557437dd6778
+  id: 15,
+  score: 22,
+  beer_id: 21,
+  created_at: Tue, 11 Sep 2018 15:33:48 UTC +00:00,
+  updated_at: Tue, 11 Sep 2018 15:33:48 UTC +00:00>,
+ #<Rating:0x0000557437dd6610
+  id: 16,
+  score: 31,
+  beer_id: 21,
+  created_at: Tue, 11 Sep 2018 15:33:53 UTC +00:00,
+  updated_at: Tue, 11 Sep 2018 15:33:53 UTC +00:00>]
+[7] pry(main)> brewery.destroy
+   (0.1ms)  begin transaction
+  Beer Load (0.1ms)  SELECT "beers".* FROM "beers" WHERE "beers"."brewery_id" = ?  [["brewery_id", 7]]
+  Rating Load (0.1ms)  SELECT "ratings".* FROM "ratings" WHERE "ratings"."beer_id" = ?  [["beer_id", 21]]
+  Rating Destroy (0.2ms)  DELETE FROM "ratings" WHERE "ratings"."id" = ?  [["id", 15]]
+  Rating Destroy (0.1ms)  DELETE FROM "ratings" WHERE "ratings"."id" = ?  [["id", 16]]
+  Beer Destroy (0.1ms)  DELETE FROM "beers" WHERE "beers"."id" = ?  [["id", 21]]
+  Brewery Destroy (0.1ms)  DELETE FROM "breweries" WHERE "breweries"."id" = ?  [["id", 7]]
+   (20.9ms)  commit transaction
+=> #<Brewery:0x0000557437381638
+ id: 7,
+ name: "Panimo",
+ year: 2018,
+ created_at: Tue, 11 Sep 2018 15:32:48 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:32:48 UTC +00:00>
+[8] pry(main)> Beer.where brewery_id:7
+  Beer Load (0.1ms)  SELECT "beers".* FROM "beers" WHERE "beers"."brewery_id" = ?  [["brewery_id", 7]]
+=> []
+[9] pry(main)> Rating.where beer_id:21
+  Rating Load (0.2ms)  SELECT "ratings".* FROM "ratings" WHERE "ratings"."beer_id" = ?  [["beer_id", 21]]
+=> []
+[10] pry(main)> 
