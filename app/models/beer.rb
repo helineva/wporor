@@ -9,4 +9,8 @@ class Beer < ActiveRecord::Base
     return total.fdiv(count).round(2)
   end
 
+  def to_s
+    return "#{self.name} by #{self.brewery.name}"
+  end
+
 end
