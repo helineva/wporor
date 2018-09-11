@@ -1,0 +1,145 @@
+Running via Spring preloader in process 13039
+Loading development environment (Rails 5.2.1)
+[1] pry(main)> brewery = Brewery.first
+  Brewery Load (0.1ms)  SELECT  "breweries".* FROM "breweries" ORDER BY "breweries"."id" ASC LIMIT ?  [["LIMIT", 1]]
+=> #<Brewery:0x0000557437c25168
+ id: 1,
+ name: "Koff",
+ year: 1897,
+ created_at: Wed, 05 Sep 2018 06:19:38 UTC +00:00,
+ updated_at: Wed, 05 Sep 2018 06:19:38 UTC +00:00>
+[2] pry(main)> brewery.beers.create name:'Choff', style:'Lager'
+   (0.1ms)  begin transaction
+  Beer Create (0.3ms)  INSERT INTO "beers" ("name", "style", "brewery_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["name", "Choff"], ["style", "Lager"], ["brewery_id", 1], ["created_at", "2018-09-11 15:15:16.793612"], ["updated_at", "2018-09-11 15:15:16.793612"]]
+   (12.0ms)  commit transaction
+=> #<Beer:0x00005574370534c0
+ id: 19,
+ name: "Choff",
+ style: "Lager",
+ brewery_id: 1,
+ created_at: Tue, 11 Sep 2018 15:15:16 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:15:16 UTC +00:00>
+[3] pry(main)> choff = Beers.last
+NameError: uninitialized constant Beers
+from /home/teemu/.rbenv/versions/2.5.1/lib/ruby/gems/2.5.0/gems/bootsnap-1.3.1/lib/bootsnap/load_path_cache/core_ext/active_support.rb:53:in `block in load_missing_constant'
+[4] pry(main)> choff = Beer.last
+  Beer Load (0.4ms)  SELECT  "beers".* FROM "beers" ORDER BY "beers"."id" DESC LIMIT ?  [["LIMIT", 1]]
+=> #<Beer:0x0000557435393c18
+ id: 19,
+ name: "Choff",
+ style: "Lager",
+ brewery_id: 1,
+ created_at: Tue, 11 Sep 2018 15:15:16 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:15:16 UTC +00:00>
+[5] pry(main)> choff.destroy
+   (0.3ms)  begin transaction
+  Beer Destroy (0.3ms)  DELETE FROM "beers" WHERE "beers"."id" = ?  [["id", 19]]
+   (20.3ms)  commit transaction
+=> #<Beer:0x0000557435393c18
+ id: 19,
+ name: "Choff",
+ style: "Lager",
+ brewery_id: 1,
+ created_at: Tue, 11 Sep 2018 15:15:16 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:15:16 UTC +00:00>
+[6] pry(main)>
+[teemu@vivo ratebeer]$ rails c
+Running via Spring preloader in process 13111
+Loading development environment (Rails 5.2.1)
+[1] pry(main)> brewery = Brewery.first
+  Brewery Load (0.1ms)  SELECT  "breweries".* FROM "breweries" ORDER BY "breweries"."id" ASC LIMIT ?  [["LIMIT", 1]]
+=> #<Brewery:0x0000557436ed30c8
+ id: 1,
+ name: "Koff",
+ year: 1897,
+ created_at: Wed, 05 Sep 2018 06:19:38 UTC +00:00,
+ updated_at: Wed, 05 Sep 2018 06:19:38 UTC +00:00>
+[2] pry(main)> choff = brewery.beers.create name:'Choff', style:'Lager'
+   (0.1ms)  begin transaction
+  Beer Create (0.3ms)  INSERT INTO "beers" ("name", "style", "brewery_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["name", "Choff"], ["style", "Lager"], ["brewery_id", 1], ["created_at", "2018-09-11 15:17:16.704851"], ["updated_at", "2018-09-11 15:17:16.704851"]]
+   (20.4ms)  commit transaction
+=> #<Beer:0x00007ff4b80ca8f0
+ id: 20,
+ name: "Choff",
+ style: "Lager",
+ brewery_id: 1,
+ created_at: Tue, 11 Sep 2018 15:17:16 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:17:16 UTC +00:00>
+[3] pry(main)> choff.ratings.create score:12
+   (0.0ms)  begin transaction
+  Rating Create (0.2ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 12], ["beer_id", 20], ["created_at", "2018-09-11 15:17:36.992370"], ["updated_at", "2018-09-11 15:17:36.992370"]]
+   (20.8ms)  commit transaction
+=> #<Rating:0x00005574359f8f18
+ id: 13,
+ score: 12,
+ beer_id: 20,
+ created_at: Tue, 11 Sep 2018 15:17:36 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:17:36 UTC +00:00>
+[4] pry(main)> choff.ratings.create score:7
+   (0.1ms)  begin transaction
+  Rating Create (0.2ms)  INSERT INTO "ratings" ("score", "beer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["score", 7], ["beer_id", 20], ["created_at", "2018-09-11 15:17:46.771443"], ["updated_at", "2018-09-11 15:17:46.771443"]]
+   (20.4ms)  commit transaction
+=> #<Rating:0x0000557437309f98
+ id: 14,
+ score: 7,
+ beer_id: 20,
+ created_at: Tue, 11 Sep 2018 15:17:46 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:17:46 UTC +00:00>
+[5] pry(main)> Rating.where beer:20
+  Rating Load (0.2ms)  SELECT "ratings".* FROM "ratings" WHERE "ratings"."beer_id" = ?  [["beer_id", 20]]
+=> [#<Rating:0x0000557436824240
+  id: 13,
+  score: 12,
+  beer_id: 20,
+  created_at: Tue, 11 Sep 2018 15:17:36 UTC +00:00,
+  updated_at: Tue, 11 Sep 2018 15:17:36 UTC +00:00>,
+ #<Rating:0x0000557436809120
+  id: 14,
+  score: 7,
+  beer_id: 20,
+  created_at: Tue, 11 Sep 2018 15:17:46 UTC +00:00,
+  updated_at: Tue, 11 Sep 2018 15:17:46 UTC +00:00>]
+[6] pry(main)> choff.destroy
+   (0.1ms)  begin transaction
+  Beer Destroy (0.2ms)  DELETE FROM "beers" WHERE "beers"."id" = ?  [["id", 20]]
+   (20.4ms)  commit transaction
+=> #<Beer:0x00007ff4b80ca8f0
+ id: 20,
+ name: "Choff",
+ style: "Lager",
+ brewery_id: 1,
+ created_at: Tue, 11 Sep 2018 15:17:16 UTC +00:00,
+ updated_at: Tue, 11 Sep 2018 15:17:16 UTC +00:00>
+[7] pry(main)> Rating.all.select{ |r| r.beer.nil? }.each{ |r| r.delete }
+  Rating Load (0.2ms)  SELECT "ratings".* FROM "ratings"
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 1], ["LIMIT", 1]]
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 1], ["LIMIT", 1]]
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 1], ["LIMIT", 1]]
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 14], ["LIMIT", 1]]
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 14], ["LIMIT", 1]]
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 14], ["LIMIT", 1]]
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 15], ["LIMIT", 1]]
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 15], ["LIMIT", 1]]
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 15], ["LIMIT", 1]]
+  Beer Load (0.2ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 2], ["LIMIT", 1]]
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 1], ["LIMIT", 1]]
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 20], ["LIMIT", 1]]
+  Beer Load (0.1ms)  SELECT  "beers".* FROM "beers" WHERE "beers"."id" = ? LIMIT ?  [["id", 20], ["LIMIT", 1]]
+  Rating Destroy (20.8ms)  DELETE FROM "ratings" WHERE "ratings"."id" = ?  [["id", 13]]
+  Rating Destroy (14.9ms)  DELETE FROM "ratings" WHERE "ratings"."id" = ?  [["id", 14]]
+=> [#<Rating:0x0000557437cb68c0
+  id: 13,
+  score: 12,
+  beer_id: 20,
+  created_at: Tue, 11 Sep 2018 15:17:36 UTC +00:00,
+  updated_at: Tue, 11 Sep 2018 15:17:36 UTC +00:00>,
+ #<Rating:0x0000557437cb6758
+  id: 14,
+  score: 7,
+  beer_id: 20,
+  created_at: Tue, 11 Sep 2018 15:17:46 UTC +00:00,
+  updated_at: Tue, 11 Sep 2018 15:17:46 UTC +00:00>]
+[8] pry(main)> Rating.where beer:20
+  Rating Load (0.1ms)  SELECT "ratings".* FROM "ratings" WHERE "ratings"."beer_id" = ?  [["beer_id", 20]]
+=> []
+[9] pry(main)> 
