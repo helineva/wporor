@@ -5,7 +5,6 @@ class Beer < ActiveRecord::Base
   has_many :ratings, dependent: :destroy
 
   def to_s
-    return "#{self.name} by #{self.brewery.name}"
+    "#{name} by #{brewery.name}"
   end
-
 end
