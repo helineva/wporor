@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :memberships
+  resources :beerclubs
   resources :users
   resources :beers
   resources :breweries
