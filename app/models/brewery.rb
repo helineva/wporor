@@ -4,6 +4,11 @@ class Brewery < ActiveRecord::Base
   has_many :beers, dependent: :destroy
   has_many :ratings, through: :beers
 
+  validates :name, presence: true
+  validates :year, numericality: { only_integer: true,
+                                   greater_than_or_equal_to: 1040,
+                                   less_than_or_equal_to: 2018 }
+
   def print_report
     puts name
     puts "established at year #{year}"
