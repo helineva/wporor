@@ -26,10 +26,6 @@
       <% end %>
     </div>
 
-    <% if current_user %>
-      <p><%= current_user.username %> signed in</p>
-    <% end %>
-
     <%= yield %>
   </body>
 </html>
