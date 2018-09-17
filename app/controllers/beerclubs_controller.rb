@@ -62,13 +62,14 @@ class BeerclubsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_beerclub
-      @beerclub = Beerclub.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def beerclub_params
-      params.require(:beerclub).permit(:name, :founded, :city)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_beerclub
+    @beerclub = Beerclub.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def beerclub_params
+    params.require(:beerclub).permit(:name, :founded, :city)
+  end
 end
