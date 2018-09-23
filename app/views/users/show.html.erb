@@ -6,6 +6,10 @@
   Has made <%= @user.ratings.count %> ratings, average rating <%= @user.average_rating %>
 </p>
 
+<% unless @user.favorite_style.nil? %>
+  Favorite style: <%= @user.favorite_style %>
+<% end %>
+
 <p>
   member of
   <ul>
