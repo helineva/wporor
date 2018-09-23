@@ -40,4 +40,15 @@ class User < ApplicationRecord
            .first
            .style
   end
+
+  def favorite_brewery
+    return nil if ratings.empty?
+
+    ratings.joins(:brewery)
+           .group('brewery_id')
+           .select('AVG(score) as avg, breweries.name as name')
+           .order('avg desc')
+           .first
+           .name
+  end
 end
