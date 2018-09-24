@@ -26,3 +26,26 @@ describe "Rating" do
     expect(beer1.average_rating).to eq(15.0)
   end
 end
+
+describe "Ratings page" do
+  let!(:brewery) { FactoryBot.create :brewery, name:"Koff" }
+  let!(:beer1) { FactoryBot.create :beer, name:"iso 3", brewery:brewery }
+  let!(:beer2) { FactoryBot.create :beer, name:"Karhu", brewery:brewery }
+  let!(:user) { FactoryBot.create :user }
+  let!(:rating1) { FactoryBot.create :rating, beer:beer1, user:user, score:20 }
+  let!(:rating2) { FactoryBot.create :rating, beer:beer1, user:user, score:30 }
+  let!(:rating3) { FactoryBot.create :rating, beer:beer2, user:user, score:40 }
+
+  before :each do
+    sign_in(username:"Pekka", password:"Foobar1")
+  end
+
+  it "contains all the saved ratings and the number of those" do
+    visit ratings_path
+    expect(find('ul')).to have_selector('li', count:Rating.count)
+    expect(page).to have_content "#{beer1.name} #{rating1.score}"
+    expect(page).to have_content "#{beer1.name} #{rating2.score}"
+    expect(page).to have_content "#{beer2.name} #{rating3.score}"
+    expect(page).to have_content "Number of ratings #{Rating.count}"
+  end
+end
