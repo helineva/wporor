@@ -45,7 +45,7 @@ class User < ApplicationRecord
     return nil if ratings.empty?
 
     ratings.joins(:brewery)
-           .group('brewery_id')
+           .group('breweries.name')
            .select('AVG(score) as avg, breweries.name as name')
            .order('avg desc')
            .first
