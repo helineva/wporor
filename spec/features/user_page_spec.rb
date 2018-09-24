@@ -36,4 +36,31 @@ describe "User page" do
     expect(user1.ratings.count).to eq(1)
     expect(Rating.exists?(rating2.id)).to be(false)
   end
+
+  it "shows user's favorite style" do
+    brewery = FactoryBot.create :brewery, name:"Koff"
+    beer1 = FactoryBot.create :beer, name:"iso 3", style:"Lager", brewery:brewery
+    beer2 = FactoryBot.create :beer, name:"Weizenolut", style:"Weizen", brewery:brewery
+
+    rating1 = FactoryBot.create :rating, beer:beer1, user:user1, score:20
+    rating2 = FactoryBot.create :rating, beer:beer2, user:user1, score:30
+
+    visit user_path(user1)
+
+    expect(page).to have_content "Favorite style: #{beer2.style}"
+  end
+
+  it "shows user's favorite brewery" do
+    brewery1 = FactoryBot.create :brewery, name:"Koff"
+    brewery2 = FactoryBot.create :brewery, name:"Boff"
+    beer1 = FactoryBot.create :beer, name:"iso 3", brewery:brewery1
+    beer2 = FactoryBot.create :beer, name:"Karhu", brewery:brewery2
+
+    rating1 = FactoryBot.create :rating, beer:beer1, user:user1, score:20
+    rating2 = FactoryBot.create :rating, beer:beer2, user:user1, score:30
+
+    visit user_path(user1)
+
+    expect(page).to have_content "Favorite brewery: #{brewery2.name}"
+  end
 end
