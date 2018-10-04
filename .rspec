@@ -1,2 +1,3 @@
 --require spec_helper
 -fd
+-r ./lib/beermapping_api_spec.rb
