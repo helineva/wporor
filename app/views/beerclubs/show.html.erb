@@ -18,7 +18,12 @@
 </ul>
 
 <% if current_user %>
-  <% if @membership %>
+  <% if @is_member %>
+    <%= form_for(@membership, method: "delete") do |f| %>
+      <%= f.hidden_field :beerclub_id %>
+      <%= f.submit value:"end the membership" %>
+    <% end %>
+  <% else %>
     <%= form_for(@membership) do |f| %>
       <%= f.hidden_field :beerclub_id %>
       <%= f.submit value:"join the club" %>
