@@ -18,6 +18,10 @@
 </ul>
 
 <% if current_user %>
+  <%= form_for(@membership) do |f| %>
+    <%= f.hidden_field :beerclub_id %>
+    <%= f.submit value:"join the club" %>
+  <% end %>
   <%= link_to 'Edit', edit_beerclub_path(@beerclub) %> |
   <%= link_to 'Destroy', @beerclub, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>
