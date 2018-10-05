@@ -11,5 +11,6 @@ deploy:
   app: stormy-fortress-25759
   run: "rails db:migrate"
 env:
-- BEERMAPPING_APIKEY=fdbf6e00d364c11edc03fac44fa40350
-- APIXU_APIKEY=fdfd2966f4774635951210319180510
+  global:
+    - BEERMAPPING_APIKEY=fdbf6e00d364c11edc03fac44fa40350
+    - APIXU_APIKEY=fdfd2966f4774635951210319180510
