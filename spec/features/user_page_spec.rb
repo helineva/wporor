@@ -3,6 +3,8 @@ require 'rails_helper'
 include Helpers
 
 describe "User page" do
+  let!(:style1) { FactoryBot.create :style }
+  let!(:style2) { FactoryBot.create :style, name: "Weizen" }
   let!(:user1) { FactoryBot.create :user }
   let!(:user2) { FactoryBot.create :user, username: "James" }
 
@@ -39,15 +41,15 @@ describe "User page" do
 
   it "shows user's favorite style" do
     brewery = FactoryBot.create :brewery, name:"Koff"
-    beer1 = FactoryBot.create :beer, name:"iso 3", style:"Lager", brewery:brewery
-    beer2 = FactoryBot.create :beer, name:"Weizenolut", style:"Weizen", brewery:brewery
+    beer1 = FactoryBot.create :beer, name:"iso 3", style:style1, brewery:brewery
+    beer2 = FactoryBot.create :beer, name:"Weizenolut", style:style2, brewery:brewery
 
     rating1 = FactoryBot.create :rating, beer:beer1, user:user1, score:20
     rating2 = FactoryBot.create :rating, beer:beer2, user:user1, score:30
 
     visit user_path(user1)
 
-    expect(page).to have_content "Favorite style: #{beer2.style}"
+    expect(page).to have_content "Favorite style: #{style2.name}"
   end
 
   it "shows user's favorite brewery" do

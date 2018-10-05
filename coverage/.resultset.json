@@ -32,8 +32,8 @@
         1,
         1,
         1,
-        null,
         1,
+        null,
         1,
         null,
         1,
@@ -89,7 +89,7 @@
         1,
         23,
         null,
-        null,
+        16,
         null,
         null,
         null,
@@ -188,6 +188,11 @@
         0,
         0,
         null,
+        null
+      ],
+      "/home/teemu/yliopisto/web-palvelinohjelmointi-ruby-on-rails/ratebeer/app/models/style.rb": [
+        1,
+        1,
         null
       ],
       "/home/teemu/yliopisto/web-palvelinohjelmointi-ruby-on-rails/ratebeer/app/controllers/sessions_controller.rb": [
@@ -566,6 +571,17 @@
         null,
         null
       ],
+      "/home/teemu/yliopisto/web-palvelinohjelmointi-ruby-on-rails/ratebeer/app/controllers/styles_controller.rb": [
+        0,
+        0,
+        0,
+        0,
+        null,
+        0,
+        0,
+        0,
+        0
+      ],
       "/home/teemu/yliopisto/web-palvelinohjelmointi-ruby-on-rails/ratebeer/app/controllers/beerclubs_controller.rb": [
         0,
         0,
@@ -580,6 +596,15 @@
         null,
         null,
         0,
+        0,
+        0,
+        null,
+        0,
+        0,
+        0,
+        0,
+        0,
+        null,
         0,
         0,
         0,
@@ -711,6 +736,7 @@
         0,
         0,
         0,
+        0,
         null,
         0,
         null,
@@ -748,6 +774,6 @@
         0
       ]
     },
-    "timestamp": 1538692763
+    "timestamp": 1538772756
   }
 }

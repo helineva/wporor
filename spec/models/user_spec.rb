@@ -85,13 +85,13 @@ RSpec.describe User, type: :model do
 
     it "is the style of the only rated beer if only one rating" do
       beer = create_beer_with_rating({ user:user }, 20)
-      expect(user.favorite_style).to eq(beer.style)
+      expect(user.favorite_style).to eq(beer.style.name)
     end
 
     it "is the style of beers of highest average rating" do
-      create_beer_with_rating({ user: user }, 20, style:"Lager")
-      create_beers_with_many_ratings({ user: user }, [32, 28], style:"Weizen")
-      create_beers_with_many_ratings({ user: user }, [22,23,24], style:"IPA")
+      create_beer_with_rating({ user: user }, 20, style_name:"Lager")
+      create_beers_with_many_ratings({ user: user }, [32, 28], style_name:"Weizen")
+      create_beers_with_many_ratings({ user: user }, [22,23,24], style_name:"IPA")
 
       expect(user.favorite_style).to eq("Weizen")
     end
@@ -117,12 +117,15 @@ RSpec.describe User, type: :model do
       brewery1 = FactoryBot.create(:brewery, name:"brewery1")
       brewery2 = FactoryBot.create(:brewery, name:"brewery2")
       brewery3 = FactoryBot.create(:brewery, name:"brewery3")
-      beer1 = FactoryBot.create(:beer, name:"beer1", style:"Lager", brewery:brewery1)
-      beer2 = FactoryBot.create(:beer, name:"beer2", style:"Weizen", brewery:brewery2)
-      beer3 = FactoryBot.create(:beer, name:"beer3", style:"IPA", brewery:brewery2)
-      beer4 = FactoryBot.create(:beer, name:"beer4", style:"Lager", brewery:brewery3)
-      beer5 = FactoryBot.create(:beer, name:"beer5", style:"Lager", brewery:brewery3)
-      beer6 = FactoryBot.create(:beer, name:"beer6", style:"Weizen", brewery:brewery3)
+      style1 = FactoryBot.create(:style, name:"style1")
+      style2 = FactoryBot.create(:style, name:"style2")
+      style3 = FactoryBot.create(:style, name:"style3")
+      beer1 = FactoryBot.create(:beer, name:"beer1", style:style1, brewery:brewery1)
+      beer2 = FactoryBot.create(:beer, name:"beer2", style:style2, brewery:brewery2)
+      beer3 = FactoryBot.create(:beer, name:"beer3", style:style3, brewery:brewery2)
+      beer4 = FactoryBot.create(:beer, name:"beer4", style:style1, brewery:brewery3)
+      beer5 = FactoryBot.create(:beer, name:"beer5", style:style1, brewery:brewery3)
+      beer6 = FactoryBot.create(:beer, name:"beer6", style:style2, brewery:brewery3)
       FactoryBot.create(:rating, score: 20, beer: beer1, user: user)
       FactoryBot.create(:rating, score: 32, beer: beer2, user: user)
       FactoryBot.create(:rating, score: 28, beer: beer3, user: user)
@@ -135,14 +138,15 @@ RSpec.describe User, type: :model do
   end
 end
 
-def create_beer_with_rating(object, score, style:"Lager")
+def create_beer_with_rating(object, score, style_name:"Lager")
+  style = FactoryBot.create(:style, name:style_name)
   beer = FactoryBot.create(:beer, style:style)
   FactoryBot.create(:rating, beer:beer, score:score, user:object[:user])
   beer
 end
 
-def create_beers_with_many_ratings(object, scores, style:"Lager")
+def create_beers_with_many_ratings(object, scores, style_name:"Lager")
   scores.each do |score|
-    create_beer_with_rating(object, score, style:style)
+    create_beer_with_rating(object, score, style_name:style_name)
   end
 end
