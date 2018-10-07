@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 
 <h1>Beer places search</h1>
 
@@ -14,7 +14,7 @@
     <img src=<%= @weather['current']['condition']['icon'] %> alt="Weather icon">
     <p><strong>wind</strong> <%= (@weather['current']['wind_kph'].to_f*10/36).round(1) %> m/s, direction <%= @weather['current']['wind_dir'] %></p>
   <% end %>
-  <table>
+  <table class="table table-hover">
     <thead>
       <% Place.rendered_fields.each do |field| %>
         <th><%= field %></th>
