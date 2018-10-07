@@ -11,19 +11,19 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="form-group row">
+    <%= form.label :name, class:'col-sm-2 col-form-label' %>
+    <%= form.text_field :name, class:'form-control col-sm-5' %>
   </div>
 
-  <div class="field">
-    <%= form.label :founded %>
-    <%= form.number_field :founded %>
+  <div class="form-group row">
+    <%= form.label :founded, class:'col-sm-2 col-form-label' %>
+    <%= form.number_field :founded, class:'form-control col-sm-5' %>
   </div>
 
-  <div class="field">
-    <%= form.label :city %>
-    <%= form.text_field :city %>
+  <div class="form-group row">
+    <%= form.label :city, class:'col-sm-2 col-form-label' %>
+    <%= form.text_field :city, class:'form-control col-sm-5' %>
   </div>
 
   <div class="actions">
