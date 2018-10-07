@@ -51,4 +51,8 @@ class User < ApplicationRecord
            .first
            .name
   end
+
+  def self.most_active(number)
+    all.sort_by{ |u| u.ratings.count }.reverse![0..number - 1]
+  end
 end

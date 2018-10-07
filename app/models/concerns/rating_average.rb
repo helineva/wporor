@@ -3,7 +3,7 @@ module RatingAverage
 
   def average_rating
     count = ratings.count
-    return nil if count.zero?
+    return 0 if count.zero?
 
     total = ratings.reduce(0) { |sum, r| sum + r.score }
     total.fdiv(count).round(2)

@@ -1,12 +1,41 @@
-<h2>Top three beers by average rating</h2>
+<h2>Ratings</h2>
 
-<%= render 'list', list: Beer.top(3) %>
+<div class="row">
+  <div class="col">
+    <h4>Best beers</h4>
+    <%= render 'table', list: Beer.top(3) %>
+  </div>
+  <div class="col">
+    <h4>Best breweries</h4>
+    <%= render 'table', list: Brewery.top(3) %>
+  </div>
+  <div class="col">
+    <h4>Best styles</h4>
+    <%= render 'table', list: Style.top(3) %>
+  </div>
+</div>
 
-<h2>Top three breweries by average rating</h2>
+<h4>Most active users</h4>
 
-<%= render 'list', list: Brewery.top(3) %>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Ratings</th>
+    </tr>
+  </thead>
 
-<h2>The most recent ratings</h2>
+  <tbody>
+    <% User.most_active(3).each do |user| %>
+      <tr>
+        <td><%= link_to user.username, user %></td>
+        <td><%= user.ratings.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h4>Recent ratings</h4>
 
 <table class="table table-hover">
   <thead>
