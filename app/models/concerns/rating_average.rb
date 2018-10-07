@@ -6,6 +6,6 @@ module RatingAverage
     return 0 if count.zero?
 
     total = ratings.reduce(0) { |sum, r| sum + r.score }
-    total.fdiv(count).round(2)
+    total.fdiv(count)
   end
 end
