@@ -18,7 +18,7 @@ describe "User page" do
 
     visit user_path(user1)
 
-    expect(all('ul')[1]).to have_selector('li', count:user1.ratings.count)
+    expect(find('ul', id:'ratings-list')).to have_selector('li', count:user1.ratings.count)
     expect(page).to have_content "#{beer1.name} #{rating1.score}"
     expect(page).to have_content "#{beer2.name} #{rating2.score}"
   end

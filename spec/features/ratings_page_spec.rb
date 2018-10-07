@@ -42,7 +42,7 @@ describe "Ratings page" do
 
   it "contains all the saved ratings and the number of those" do
     visit ratings_path
-    expect(find('ul')).to have_selector('li', count:Rating.count)
+    expect(find('ul', id:'ratings-list')).to have_selector('li', count:Rating.count)
     expect(page).to have_content "#{beer1.name} #{rating1.score}"
     expect(page).to have_content "#{beer1.name} #{rating2.score}"
     expect(page).to have_content "#{beer2.name} #{rating3.score}"

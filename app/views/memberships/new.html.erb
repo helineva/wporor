@@ -12,6 +12,8 @@
       </ul>
     </div>
   <% end %>
-  <%= f.select :beerclub_id, options_from_collection_for_select(@beerclubs, :id, :to_s) %>
-  <%= f.submit %>
+  <div class="form-group">
+    <%= f.select :beerclub_id, options_from_collection_for_select(@beerclubs, :id, :to_s), class:'form-control' %>
+  </div>
+  <%= f.submit class:'btn btn-primary' %>
 <% end %>
