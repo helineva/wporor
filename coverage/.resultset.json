@@ -3,6 +3,19 @@
     "coverage": {
       "/home/teemu/yliopisto/web-palvelinohjelmointi-ruby-on-rails/ratebeer/app/helpers/application_helper.rb": [
         1,
+        1,
+        1,
+        null,
+        0,
+        0,
+        null,
+        null,
+        0,
+        null,
+        null,
+        1,
+        12,
+        null,
         null
       ],
       "/home/teemu/yliopisto/web-palvelinohjelmointi-ruby-on-rails/ratebeer/app/helpers/beerclubs_helper.rb": [
@@ -814,6 +827,6 @@
         0
       ]
     },
-    "timestamp": 1538946818
+    "timestamp": 1538948340
   }
 }

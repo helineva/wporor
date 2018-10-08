@@ -1,5 +1,3 @@
-
-
 <h2>Beer styles</h2>
 
 <table class="table table-hover">
@@ -17,3 +15,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= link_to('New style', new_style_path, class:'btn btn-primary') if current_user %>
