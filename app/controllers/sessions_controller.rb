@@ -5,8 +5,12 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by username: params[:username]
     if user&.authenticate(params[:password])
-      session[:user_id] = user.id
-      redirect_to user_path(user), notice: "Welcome back!"
+      if user.disabled
+        redirect_to signin_path, notice: "your account is closed, please contact admin"
+      else
+        session[:user_id] = user.id
+        redirect_to user_path(user), notice: "Welcome back!"
+      end
     else
       redirect_to signin_path, notice: "Username and/or password mismatch"
     end

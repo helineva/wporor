@@ -1,6 +1,11 @@
+<h2>
+  <%= @user.username %>
+  <% if current_user&.admin && @user.disabled %>
+    <span class="badge badge-info">account closed</span>
+  <% end %>
+</h2>
 
-
-<h2><%= @user.username %></h2>
+<%= link_to "#{@user.disabled ? 'open' : 'close'} account", toggle_state_user_path(@user.id), method: :post, class:'btn btn-danger' if current_user&.admin %>
 
 <p>
   Has made <%= @user.ratings.count %> ratings, average rating <%= round(@user.average_rating) %>

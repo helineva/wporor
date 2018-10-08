@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :ensure_that_signed_in, only: [:edit, :update, :destroy]
+  before_action :ensure_that_admin, only: :toggle_state
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -62,6 +64,13 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def toggle_state
+    user = User.find(params[:id])
+    user.update_attribute :disabled, !user.disabled
+    new_state = user.disabled ? "closed" : "opened"
+    redirect_to user, notice: "user #{user.username}'s account has been #{new_state}"
   end
 
   private
