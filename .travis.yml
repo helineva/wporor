@@ -2,6 +2,7 @@ language: ruby
 rvm:
 - 2.5.1
 script:
+- xvfb-run make test
 - bundle exec rails db:migrate
 - bundle exec rspec -fd spec
 deploy:
