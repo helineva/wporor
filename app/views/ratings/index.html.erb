@@ -3,15 +3,15 @@
 <div class="row">
   <div class="col">
     <h4>Best beers</h4>
-    <%= render 'table', list: Beer.top(3) %>
+    <%= render 'table', list: @best_beers %>
   </div>
   <div class="col">
     <h4>Best breweries</h4>
-    <%= render 'table', list: Brewery.top(3) %>
+    <%= render 'table', list: @best_breweries %>
   </div>
   <div class="col">
     <h4>Best styles</h4>
-    <%= render 'table', list: Style.top(3) %>
+    <%= render 'table', list: @best_styles %>
   </div>
 </div>
 
@@ -26,7 +26,7 @@
   </thead>
 
   <tbody>
-    <% User.most_active(3).each do |user| %>
+    <% @most_active_users.each do |user| %>
       <tr>
         <td><%= link_to user.username, user %></td>
         <td><%= user.ratings.count %></td>
@@ -47,7 +47,7 @@
   </thead>
 
   <tbody>
-    <% Rating.recent.each do |rating| %>
+    <% @recent_ratings.each do |rating| %>
       <tr>
         <td><%= link_to rating.beer.name, rating.beer %></td>
         <td><%= rating.score %></td>
