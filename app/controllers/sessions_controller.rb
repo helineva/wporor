@@ -25,7 +25,9 @@ class SessionsController < ApplicationController
     if !user
       pw = generate_random_password
       user = User.create username: nickname, password: pw, password_confirmation: pw, github: true
+      return redirect_to signin_path, notice: "user already exists" unless user.valid?
     end
+
     session[:user_id] = user.id
     redirect_to user_path(user), notice: "Welcome back!"
   end
