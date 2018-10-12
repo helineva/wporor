@@ -16,6 +16,9 @@ class User < ApplicationRecord
   validate :password_must_contain_capital_letter
   validate :password_must_contain_number
 
+  scope :github_users, -> { where github: true }
+  scope :non_github_users, -> { where github: [nil, false] }
+
   def password_must_contain_capital_letter
     errors.add(:password, "must contain a capital letter") if password.present? && password !~ /.*[A-Z].*/
   end
