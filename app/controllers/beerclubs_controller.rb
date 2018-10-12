@@ -1,5 +1,5 @@
 class BeerclubsController < ApplicationController
-  before_action :ensure_that_signed_in, except: [:index, :show]
+  before_action :ensure_that_signed_in, except: [:index]
   before_action :ensure_that_admin, only: :destroy
   before_action :set_beerclub, only: [:show, :edit, :update, :destroy]
 
@@ -18,11 +18,12 @@ class BeerclubsController < ApplicationController
   # GET /beerclubs/1
   # GET /beerclubs/1.json
   def show
-    @is_member = false
-    return if !current_user
+    @memberships = @beerclub.memberships
+    @applications = @beerclub.applications
+    @is_member = @memberships.map(&:user).include?(current_user)
+    @is_applicant = @applications.map(&:user).include?(current_user)
 
-    if current_user.beerclubs.include?(@beerclub)
-      @is_member = true
+    if @is_member || @is_applicant
       @membership = Membership.where(beerclub_id: @beerclub.id, user_id: current_user.id).first
       return
     end
@@ -48,6 +49,8 @@ class BeerclubsController < ApplicationController
 
     respond_to do |format|
       if @beerclub.save
+        Membership.create user_id: current_user.id, beerclub_id: @beerclub.id, confirmed: true
+
         format.html { redirect_to @beerclub, notice: 'Beerclub was successfully created.' }
         format.json { render :show, status: :created, location: @beerclub }
       else

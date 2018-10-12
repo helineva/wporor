@@ -5,7 +5,8 @@ class User < ApplicationRecord
 
   has_many :ratings, dependent: :destroy
   has_many :beers, through: :ratings
-  has_many :memberships, dependent: :destroy
+  has_many :memberships, -> { where confirmed: true }
+  has_many :applications, -> { where confirmed: false }, class_name: 'Membership'
   has_many :beerclubs, through: :memberships
 
   validates :username, uniqueness: true,

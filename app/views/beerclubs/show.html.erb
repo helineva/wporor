@@ -1,5 +1,3 @@
-
-
 <h2>
   <%= @beerclub.to_s %>
 </h2>
@@ -12,21 +10,32 @@
   Members:
 </h3>
 <ul>
-<% @beerclub.members.each do |member| %>
-  <li><%= link_to member.username, member %></li>
+<% @memberships.each do |membership| %>
+  <li><%= link_to membership.user.username, membership.user %></li>
 <% end %>
 </ul>
 
+<% if @is_member && @applications.count > 0 %>
+  <h3>
+    Applicants:
+  </h3>
+  <ul>
+  <% @applications.each do |application| %>
+    <li><%= link_to application.user.username, application.user %><%= link_to "confirm", confirm_membership_path(application.id), method: :post, class:'btn btn-primary' %></li>
+  <% end %>
+  </ul>
+<% end %>
+
 <% if current_user %>
-  <% if @is_member %>
+  <% if @is_member || @is_applicant%>
     <%= form_for(@membership, method: "delete") do |f| %>
       <%= f.hidden_field :beerclub_id %>
-      <%= f.submit value:"end the membership", class:'btn btn-primary' %>
+      <%= f.submit value:"#{@is_member ? "end the membership" : "cancel the application"}", class:'btn btn-primary' %>
     <% end %>
   <% else %>
     <%= form_for(@membership) do |f| %>
       <%= f.hidden_field :beerclub_id %>
-      <%= f.submit value:"join the club", class:'btn btn-primary' %>
+      <%= f.submit value:"apply for membership", class:'btn btn-primary' %>
     <% end %>
   <% end %>
   <%= link_to 'Edit', edit_beerclub_path(@beerclub), class:'btn btn-primary' %>

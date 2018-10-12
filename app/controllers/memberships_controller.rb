@@ -15,9 +15,6 @@ class MembershipsController < ApplicationController
   # GET /memberships/new
   def new
     @membership = Membership.new
-    id = current_user.id
-    beerclubs_already_member = Beerclub.joins(:memberships).where(memberships: { user_id: id }).select(:id).distinct
-    @beerclubs = Beerclub.where.not(id: beerclubs_already_member)
   end
 
   # GET /memberships/1/edit
@@ -29,12 +26,13 @@ class MembershipsController < ApplicationController
   def create
     @membership = Membership.new params.require(:membership).permit(:beerclub_id)
     @membership.user_id = current_user.id
+    @membership.confirmed = false
+    beerclub = Beerclub.find @membership.beerclub_id
 
     if @membership.save
-      redirect_to @membership.beerclub, notice: "#{@membership.user.username} welcome to the club!"
+      redirect_to current_user, notice: "You have applied for membership of #{beerclub.name}."
     else
-      @beerclubs = Beerclub.all
-      render :new
+      redirect_to current_user, notice: "Applying for membership of #{beerclub.name} failed."
     end
   end
 
@@ -56,10 +54,28 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1.json
   def destroy
     beerclub_name = @membership.beerclub.name
+
+    if @membership.confirmed
+      notice = "Membership in #{beerclub_name} ended."
+    else
+      "Application for membership of #{beerclub_name} cancelled."
+    end
+
     @membership.destroy
     respond_to do |format|
-      format.html { redirect_to current_user, notice: "Membership in #{beerclub_name} ended." }
+      format.html { redirect_to current_user, notice: notice }
       format.json { head :no_content }
+    end
+  end
+
+  def confirm
+    membership = Membership.find(params[:id])
+    beerclub = membership.beerclub
+    if beerclub.memberships.map(&:user).include?(current_user)
+      membership.update_attribute :confirmed, true
+      redirect_to beerclub, notice: "User #{membership.user.username}'s membership confirmed."
+    else
+      redirect_back fallback_location: breweries_url, notice: 'You are not allowed to do that.'
     end
   end
 
